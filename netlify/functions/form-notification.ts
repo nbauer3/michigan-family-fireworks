@@ -37,7 +37,7 @@ interface FormData {
  * 5. Save
  */
 
-function buildHtmlEmail(data: FormData, submissionId: string): string {
+function buildHtmlEmail(data: FormData, submissionId: string, ip: string): string {
   const submittedAt = new Date().toLocaleString("en-US", {
     timeZone: "America/Detroit",
     dateStyle: "full",
@@ -159,7 +159,7 @@ function buildHtmlEmail(data: FormData, submissionId: string): string {
           <tr>
             <td style="font-size: 12px; color: #9ca3af; text-align: center;">
               <p style="margin: 0 0 4px;">Submitted from <strong>michigan-family-fireworks.netlify.app</strong></p>
-              <p style="margin: 0;">IP: ${_ip} • ${submittedAt} • ID: ${submissionId}</p>
+              <p style="margin: 0;">IP: ${ip} • ${submittedAt} • ID: ${submissionId}</p>
             </td>
           </tr>
         </table>
@@ -290,7 +290,7 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
         to: [TO_EMAIL],
         replyTo: hasEmail ? data.email.trim() : undefined,
         subject,
-        html: buildHtmlEmail(data, submissionId),
+        html: buildHtmlEmail(data, submissionId, _ip),
         text: buildTextEmail(data, submissionId),
       })
 
