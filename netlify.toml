@@ -1,0 +1,24 @@
+# netlify.toml — Netlify deployment config for Michigan Family Fireworks
+# Docs: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  command = "npm run build"
+  publish = "dist"          # Vite outputs to ./dist by default
+
+[build.environment]
+  NODE_VERSION = "20"        # pin a Node LTS for reproducible builds
+
+# SPA fallback: serve index.html for any unknown route so client-side
+# deep links (e.g. /#contact) resolve instead of 404-ing.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Sensible security headers for a static marketing site.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

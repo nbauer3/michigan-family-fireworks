@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO + social preview -->
+    <title>Michigan Family Fireworks | Professional Fireworks Displays</title>
+    <meta
+      name="description"
+      content="Michigan Family Fireworks provides professional, safety-focused fireworks displays for private events, weddings, holidays, and custom shows across Michigan. Request a quote today."
+    />
+    <meta property="og:title" content="Michigan Family Fireworks" />
+    <meta
+      property="og:description"
+      content="Professional fireworks displays for any occasion across Michigan."
+    />
+    <meta property="og:type" content="website" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- ============================================================
+         Netlify Forms — hidden static registration form.
+         Netlify detects forms in the built HTML at deploy time. Because
+         this is a client-rendered SPA, the React <Contact> form is not
+         present in the static HTML, so Netlify would not register it.
+         This hidden form declares the same name + fields so submissions
+         sent from the React form are accepted and recorded by Netlify.
+         ============================================================ -->
+    <form name="quote-request" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="quote-request" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <select name="eventType">
+        <option value="Private Event">Private Event</option>
+        <option value="Wedding">Wedding</option>
+        <option value="Holiday Display">Holiday Display</option>
+        <option value="Custom Show">Custom Show</option>
+        <option value="Other">Other</option>
+      </select>
+      <textarea name="message"></textarea>
+    </form>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
