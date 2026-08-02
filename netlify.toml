@@ -4,6 +4,7 @@
 [build]
   command = "npm run build"
   publish = "dist"          # Vite outputs to ./dist by default
+  functions = "netlify/functions"  # Netlify Functions directory
 
 [build.environment]
   NODE_VERSION = "20"        # pin a Node LTS for reproducible builds
