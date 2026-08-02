@@ -24,7 +24,8 @@ import Icon from "../components/Icon"
 import { galleryImages, site } from "../data/site"
 // Local video asset. Vite hashes & emits it to /assets at build time.
 // `vite/client` types (see tsconfig.app.json) declare *.mp4 modules.
-import fireworksVideo from "../assets/fireworks.mp4"
+//TODO
+//import fireworksVideo from "../assets/fireworks.mp4"
 
 // Page size at each breakpoint. Tailwind's responsive utilities switch the
 // visible item count; these JS constants must match. We compute perPage from
@@ -160,11 +161,19 @@ export default function Gallery() {
         ))}
       </div>
 
+      <Reveal className="mt-12">
+        <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-ink-700/60 bg-ink-800/40">
+          <p className="flex h-full items-center justify-center text-white/70">
+            Fireworks highlight video coming soon
+          </p>
+        </div>
+      </Reveal>
+
       {/* Locally-hosted highlight video.
           A large overlay play button sits centered before the first play so
           users don't have to hunt for the small native control. Once playing,
           the overlay fades out; native controls remain available for volume /
-          scrubbing. Clicking the video toggles play/pause. */}
+          scrubbing. Clicking the video toggles play/pause. 
       <Reveal className="mt-12">
         <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-ink-700/60 bg-ink-800/40">
           <video
@@ -179,9 +188,6 @@ export default function Gallery() {
             onEnded={() => setPlaying(false)}
             className="h-full w-full"
           />
-
-          {/* Big center play button — only visible before the video starts,
-              fades out once playing. Clicking it starts playback. */}
           <AnimatePresence>
             {!playing && (
               <motion.button
@@ -210,7 +216,7 @@ export default function Gallery() {
             )}
           </AnimatePresence>
         </div>
-      </Reveal>
+      </Reveal> */}
 
       {/* Secondary CTA nudging toward social */}
       <Reveal className="mt-10 text-center">
