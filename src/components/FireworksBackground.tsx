@@ -38,7 +38,7 @@ export default function FireworksBackground() {
         opacity: { value: { min: 0.15, max: 0.45 } }, // keep it dim
       },
       emitters: {
-        rate: { delay: 1, quantity: 3 }, // a burst roughly every 2.5s
+        rate: { delay: 1, quantity: 5 }, // a burst roughly every 1.5s
         size: { width: 100, height: 100 },
       },
       // Keep the firework "blast" sound very quiet. Auto-plays are blocked

@@ -65,13 +65,14 @@ export default function Contact() {
   function validate(): typeof errors {
     const next: typeof errors = {}
     if (!values.name.trim()) next.name = "Please enter your name."
-    if (!values.email.trim()) {
-      next.email = "Please enter your email."
-    } else if (!emailRe.test(values.email)) {
+    // Require EITHER email OR phone (at least one contact method)
+    const hasEmail = values.email.trim() !== ""
+    const hasPhone = values.phone.trim() !== ""
+    if (!hasEmail && !hasPhone) {
+      next.email = "Please enter your email or phone number."
+      next.phone = "Please enter your email or phone number."
+    } else if (hasEmail && !emailRe.test(values.email)) {
       next.email = "Please enter a valid email address."
-    }
-    if (!values.phone.trim()) {
-      next.phone = "Please enter your phone number."
     }
     if (!values.eventType) next.eventType = "Please select an event type."
     if (!values.message.trim()) {
@@ -204,7 +205,6 @@ export default function Contact() {
                     error={errors.email}
                     onChange={(v) => update("email", v)}
                     maxLength={120}
-                    required
                   />
                   <Field
                     label="Phone"
@@ -215,7 +215,6 @@ export default function Contact() {
                     error={errors.phone}
                     onChange={(v) => update("phone", v)}
                     maxLength={30}
-                    required
                   />
                   {/* Event type dropdown */}
                   <div className="sm:col-span-1">

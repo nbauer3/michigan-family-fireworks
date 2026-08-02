@@ -1,0 +1,37 @@
+===============================================================
+        MICHIGAN FAMILY FIREWORKS
+        New Quote Request Received
+===================================================
+
+You have a new fireworks display inquiry from the website contact form.
+
+---------------------------------------------------
+CONTACT DETAILS
+---------------------------------------------------
+Name:       {name}
+Email:      {email}
+Phone:      {phone}
+Event Type: {eventType}
+
+---------------------------------------------------
+EVENT DETAILS
+---------------------------------------------------
+{message}
+
+---------------------------------------------------
+QUICK ACTIONS
+---------------------------------------------------
+Reply via Email: mailto:{email}?subject=Re:%20Your%20Fireworks%20Quote%20Request
+Call:            tel:{phone}
+
+---------------------------------------------------
+METADATA
+---------------------------------------------------
+Source:   michigan-family-fireworks.netlify.app
+IP:       {ip}
+Date:     {date}
+
+===================================================
+Michigan Family Fireworks
+This email was sent automatically from your website contact form.
+===================================================
