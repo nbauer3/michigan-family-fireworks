@@ -139,36 +139,32 @@ export const reviews: Review[] = [
  */
 export const galleryImages = [
   {
-    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80",
-    alt: "Bursting fireworks over a nighttime sky",
-  },
-  {
     src: "https://images.unsplash.com/photo-1533230408708-8f9f91d1235a?auto=format&fit=crop&w=800&q=80",
-    alt: "Colorful fireworks reflecting over water",
+    alt: "Attica Placeholder",
   },
   {
     src: "https://images.unsplash.com/photo-1533219057257-4bb9ed5d2cc6?auto=format&fit=crop&w=800&q=80",
-    alt: "Fireworks finale over a crowd",
+    alt: "Valley View Placeholder",
   },
   {
     src: "https://images.unsplash.com/photo-1531686264889-56fdcabd163f?auto=format&fit=crop&w=800&q=80",
-    alt: "Sparkler fountain fireworks at night",
+    alt: "Lake Neppesing Placeholder",
   },
   {
     src: "https://images.unsplash.com/photo-1549194400-06e6874c2fd1?auto=format&fit=crop&w=800&q=80",
-    alt: "Golden fireworks cascading above trees",
+    alt: "Placeholder 4",
   },
   {
     src: "https://images.unsplash.com/photo-1503803508152-7790ae3cb125?auto=format&fit=crop&w=800&q=80",
-    alt: "Red and gold chrysanthemum firework burst",
+    alt: "Placeholder 5",
   },
   {
     src: "https://images.unsplash.com/photo-1560986752-2e31d9507413?auto=format&fit=crop&w=800&q=80",
-    alt: "Multi-colored Independence Day fireworks",
+    alt: "Placeholder 6",
   },
   {
     src: "https://images.unsplash.com/photo-1545505567-7327366a634d?auto=format&fit=crop&w=800&q=80",
-    alt: "Wedding sparklers forming an arch",
+    alt: "Placeholder 7",
   },
 ] as const
 
