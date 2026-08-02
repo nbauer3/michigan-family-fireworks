@@ -14,8 +14,11 @@
  * so it stays easy to maintain.
  */
 
-import { useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
+//TODO
+//import { useEffect, useRef, useState } from "react"
+//import { AnimatePresence, motion } from "framer-motion"
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
 import { Section } from "../components/SectionHeading"
 import SectionHeading from "../components/SectionHeading"
 import Reveal from "../components/Reveal"
@@ -65,7 +68,9 @@ export default function Gallery() {
   const prev = () => setPage((p) => (p - 1 + pages) % pages)
 
   // Highlight video: track playing state so a large overlay play button
-  // can invite the first click and hide once playback starts.
+  //can invite the first click and hide once playback starts.
+  //TODO
+  /*
   const videoRef = useRef<HTMLVideoElement>(null)
   const [playing, setPlaying] = useState(false)
 
@@ -79,6 +84,7 @@ export default function Gallery() {
       v.pause()
     }
   }
+  */
 
   return (
     <Section id="gallery">
