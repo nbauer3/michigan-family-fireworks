@@ -9,6 +9,11 @@
 [build.environment]
   NODE_VERSION = "20"        # pin a Node LTS for reproducible builds
 
+# Function build configuration for local dev
+[functions]
+  # Use esbuild to transpile TypeScript functions
+  node_bundler = "esbuild"
+
 # SPA fallback: serve index.html for any unknown route so client-side
 # deep links (e.g. /#contact) resolve instead of 404-ing.
 [[redirects]]

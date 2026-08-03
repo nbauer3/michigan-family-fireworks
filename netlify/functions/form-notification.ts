@@ -3,7 +3,7 @@ import { Resend } from "resend"
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY
 const TO_EMAIL = process.env.NOTIFICATION_EMAIL || "devtestingbauer@gmail.com"
-const FROM_EMAIL = "Michigan Family Fireworks <noreply@michigan-family-fireworks.netlify.app>"
+const FROM_EMAIL = "Michigan Family Fireworks <onboarding@resend.dev>"
 
 if (!RESEND_API_KEY) {
   console.warn("RESEND_API_KEY not set — email notification will be skipped")

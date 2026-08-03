@@ -133,38 +133,57 @@ export const reviews: Review[] = [
 ]
 
 /**
- * Gallery images. These use Unsplash "Source" style URLs so you get real
- * fireworks photos without an API key. Swap these for your own photos by
- * replacing the `src` values with local imports from src/assets.
+ * Gallery images. Replace Unsplash URLs with local imports from src/assets/photos/.
+ * Example:
+ *   import show1 from "../assets/photos/attica-graduation-2023.jpg"
+ *   { src: show1, alt: "Attica graduation show 2023" }
+ *
+ * Add your real show photos to src/assets/photos/ and update the imports below.
  */
+// Local image imports
+import top1 from "../assets/photos/top1.jpg"
+import top2 from "../assets/photos/top2.jpg"
+import top3 from "../assets/photos/top3.jpg"
+import img142 from "../assets/photos/1000016142.jpg"
+import img145 from "../assets/photos/1000016145.jpg"
+import img166 from "../assets/photos/1000016166.jpg"
+import img172 from "../assets/photos/1000016172.jpg"
+import img178 from "../assets/photos/1000016178.jpg"
+
 export const galleryImages = [
+  // First 3 priority photos
   {
-    src: "https://images.unsplash.com/photo-1533230408708-8f9f91d1235a?auto=format&fit=crop&w=800&q=80",
-    alt: "Attica Placeholder",
+    src: top1,
+    alt: "Colorful multi-colored fireworks cluster",
   },
   {
-    src: "https://images.unsplash.com/photo-1533219057257-4bb9ed5d2cc6?auto=format&fit=crop&w=800&q=80",
-    alt: "Valley View Placeholder",
+    src: top2,
+    alt: "Pink, green, and orange fireworks display",
   },
   {
-    src: "https://images.unsplash.com/photo-1531686264889-56fdcabd163f?auto=format&fit=crop&w=800&q=80",
-    alt: "Lake Neppesing Placeholder",
+    src: top3,
+    alt: "Red, green, and white aerial fireworks",
+  },
+  // Remaining photos
+  {
+    src: img142,
+    alt: "Vibrant fireworks over tree line",
   },
   {
-    src: "https://images.unsplash.com/photo-1549194400-06e6874c2fd1?auto=format&fit=crop&w=800&q=80",
-    alt: "Placeholder 4",
+    src: img145,
+    alt: "Palm-style firework with pink bursts",
   },
   {
-    src: "https://images.unsplash.com/photo-1503803508152-7790ae3cb125?auto=format&fit=crop&w=800&q=80",
-    alt: "Placeholder 5",
+    src: img166,
+    alt: "Large pink and white firework burst",
   },
   {
-    src: "https://images.unsplash.com/photo-1560986752-2e31d9507413?auto=format&fit=crop&w=800&q=80",
-    alt: "Placeholder 6",
+    src: img172,
+    alt: "Twin red fireworks in night sky",
   },
   {
-    src: "https://images.unsplash.com/photo-1545505567-7327366a634d?auto=format&fit=crop&w=800&q=80",
-    alt: "Placeholder 7",
+    src: img178,
+    alt: "Large red and green fireworks",
   },
 ] as const
 

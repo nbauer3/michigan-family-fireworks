@@ -69,17 +69,22 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll cue */}
+      {/* Scroll cue - text + arrow together, both bounce */}
       <motion.a
         href="#services"
         aria-label="Scroll to services"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 0.6 }}
-        // Bigger + brighter than before so the scroll affordance is obvious;
-        // the chevron still sits inside a gentle tap target.
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 text-cream-200/70 hover:text-ember-300"
+        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-1 text-cream-200/60 hover:text-ember-300"
       >
+        <motion.p
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          className="text-xs uppercase tracking-[0.3em] select-none"
+        >
+          Scroll Down
+        </motion.p>
         <motion.svg
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
