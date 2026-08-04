@@ -22,6 +22,7 @@
   status = 200
 
 # Sensible security headers for a static marketing site.
+# CSP is defined in public/_headers for production-only deployment
 [[headers]]
   for = "/*"
   [headers.values]
@@ -35,13 +36,3 @@
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     # Permissions Policy: restrict powerful browser features for a static marketing site
     Permissions-Policy = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()"
-    # CSP: static-site-safe policy allowing necessary resources
-    # - default-src 'self': only same-origin by default
-    # - script-src 'self' 'wasm-unsafe-eval': Vite/React + tsParticles WASM
-    # - style-src 'self' 'unsafe-inline' https://fonts.googleapis.com: Tailwind + Google Fonts
-    # - font-src 'self' https://fonts.gstatic.com: Google Fonts
-    # - img-src 'self' data: https: : images + data URIs + HTTPS images
-    # - connect-src 'self' https://*.netlify.app: Netlify Forms endpoint
-    # - media-src 'self': local video
-    # - frame-src 'none': no iframes
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.netlify.app; media-src 'self'; frame-src 'none'; base-uri 'self'; form-action 'self'"

@@ -245,9 +245,24 @@ export const handler: Handler = async (event: HandlerEvent, _context: HandlerCon
 
   let data: FormData
   try {
-    data = JSON.parse(event.body || "{}")
+    const contentType = event.headers["content-type"] || ""
+    if (contentType.includes("application/json")) {
+      data = JSON.parse(event.body || "{}")
+    } else if (contentType.includes("application/x-www-form-urlencoded")) {
+      // Netlify Forms webhook sends form-encoded data
+      const params = new URLSearchParams(event.body || "")
+      data = Object.fromEntries(params.entries()) as unknown as FormData
+    } else {
+      // Fallback: try JSON, then form-encoded
+      try {
+        data = JSON.parse(event.body || "{}")
+      } catch {
+        const params = new URLSearchParams(event.body || "")
+        data = Object.fromEntries(params.entries()) as unknown as FormData
+      }
+    }
   } catch {
-    return { statusCode: 400, body: "Invalid JSON" }
+    return { statusCode: 400, body: "Invalid request body" }
   }
 
   // Honeypot check — if bot-field is filled, it's spam
