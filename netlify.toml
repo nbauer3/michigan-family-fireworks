@@ -22,6 +22,9 @@
   status = 200
 
 # Sensible security headers for a static marketing site.
+# Single header set works for both dev and production.
+# Uses 'unsafe-inline' for scripts/styles (needed for Vite HMR in dev,
+# and Tailwind/Google Fonts inline styles in production).
 [[headers]]
   for = "/*"
   [headers.values]
@@ -35,17 +38,7 @@
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     # Permissions Policy: restrict powerful browser features for a static marketing site
     Permissions-Policy = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()"
-    # Dev-friendly CSP: allows Vite HMR inline scripts + React Fast Refresh
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.netlify.app ws://localhost:*; media-src 'self'; frame-src 'none'; base-uri 'self'; form-action 'self'"
-
-# Production context: strict CSP for security
-[context.production.headers]
-  for = "/*"
-  [context.production.headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    Permissions-Policy = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()"
-    # CSP: static-site-safe policy allowing necessary resources
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.netlify.app; media-src 'self'; frame-src 'none'; base-uri 'self'; form-action 'self'"
+    # CSP: allows necessary resources for both dev and prod
+    # script-src: 'unsafe-inline' needed for Vite HMR (dev) + React scripts
+    # style-src: 'unsafe-inline' needed for Tailwind/Google Fonts
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.netlify.app; media-src 'self'; frame-src 'none'; base-uri 'self'; form-action 'self'"
