@@ -7,13 +7,14 @@
  */
 
 import { useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import { Section } from "../components/SectionHeading"
 import SectionHeading from "../components/SectionHeading"
 import Reveal from "../components/Reveal"
 import Button from "../components/Button"
 import Icon from "../components/Icon"
 import { galleryImages, site } from "../data/site"
+import lakeVideo from "../assets/videos/Lake-Neppesing-compressed.mp4"
 
 // Page size at each breakpoint. Tailwind's responsive utilities switch the
 // visible item count; these JS constants must match. We compute perPage from
@@ -48,9 +49,21 @@ export default function Gallery() {
   const perPage = usePerPage()
   const pages = Math.max(1, galleryImages.length - perPage + 1)
   const [page, setPage] = useState(0)
+  const [videoPlaying, setVideoPlaying] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const next = () => setPage((p) => (p + 1) % pages)
   const prev = () => setPage((p) => (p - 1 + pages) % pages)
+
+  const toggleVideo = () => {
+    if (!videoRef.current) return
+    if (videoPlaying) {
+      videoRef.current.pause()
+    } else {
+      videoRef.current.play()
+    }
+    setVideoPlaying(!videoPlaying)
+  }
 
   return (
     <Section id="gallery">
@@ -131,6 +144,46 @@ export default function Gallery() {
           />
         ))}
       </div>
+
+      {/* Video showcase */}
+      <Reveal className="mt-10">
+        <div className="flex justify-center">
+          <div className="relative rounded-2xl overflow-hidden border border-ink-700/50 bg-ink-950 max-w-md mx-auto">
+            <video
+              ref={videoRef}
+              src={lakeVideo}
+              controls
+              loop
+              muted
+              className="w-full h-auto object-contain"
+              poster="/og-image.jpg"
+              onPlay={() => setVideoPlaying(true)}
+              onPause={() => setVideoPlaying(false)}
+            />
+            {!videoPlaying && (
+              <>
+                {/* Caption overlay - positioned just above play button */}
+                <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-full mb-6 z-10 px-3 py-1 rounded-full bg-ink-950/80 text-cream-100 text-xs font-medium backdrop-blur-sm pointer-events-none">
+                  Lake Neppesing — 4th of July '26
+                </div>
+                {/* Play button overlay */}
+                <button
+                  type="button"
+                  onClick={toggleVideo}
+                  aria-label="Play video"
+                  className="absolute inset-0 flex items-center justify-center bg-ink-950/50 hover:bg-ink-950/30 transition-colors"
+                >
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-ember-400/90 text-ink-950 shadow-xl shadow-ember-500/30 hover:bg-ember-400 hover:scale-105 transition-transform" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-8 w-8 ml-1">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </Reveal>
 
       {/* Secondary CTA nudging toward social */}
       <Reveal className="mt-10 text-center">
