@@ -1,23 +1,12 @@
 /**
- * Gallery.tsx — Side-by-side image carousel + a local highlight video.
+ * Gallery.tsx — Image carousel.
  *
  * Layout:
  *   - A horizontal carousel showing 3 (lg) / 2 (sm) / 1 (xs) images at once.
  *     Left/right arrow buttons advance one slide at a time and loop around.
- *   - Below the carousel, a locally-hosted fireworks highlight video
- *     (src/assets/fireworks.mp4) plays with native controls. Swap the file
- *     to change the clip — no embed URL needed.
- *
- * Implementation detail: the track is a flex row translated via a
- * percentage offset; arrow buttons compute the next page index from the
- * responsive `perPage` value. Deliberately lightweight (no carousel/lib)
- * so it stays easy to maintain.
  */
 
-//TODO
-//import { useEffect, useRef, useState } from "react"
-//import { AnimatePresence, motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { Section } from "../components/SectionHeading"
 import SectionHeading from "../components/SectionHeading"
@@ -25,10 +14,7 @@ import Reveal from "../components/Reveal"
 import Button from "../components/Button"
 import Icon from "../components/Icon"
 import { galleryImages, site } from "../data/site"
-// Local video asset. Vite hashes & emits it to /assets at build time.
-// `vite/client` types (see tsconfig.app.json) declare *.mp4 modules.
-//TODO
-//import fireworksVideo from "../assets/fireworks.mp4"
+import lakeVideo from "../assets/videos/Lake-Neppesing-compressed.mp4"
 
 // Page size at each breakpoint. Tailwind's responsive utilities switch the
 // visible item count; these JS constants must match. We compute perPage from
@@ -63,28 +49,21 @@ export default function Gallery() {
   const perPage = usePerPage()
   const pages = Math.max(1, galleryImages.length - perPage + 1)
   const [page, setPage] = useState(0)
+  const [videoPlaying, setVideoPlaying] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const next = () => setPage((p) => (p + 1) % pages)
   const prev = () => setPage((p) => (p - 1 + pages) % pages)
 
-  // Highlight video: track playing state so a large overlay play button
-  //can invite the first click and hide once playback starts.
-  //TODO
-  /*
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [playing, setPlaying] = useState(false)
-
-  // Toggle play/pause. Used by the big overlay button.
-  const togglePlay = () => {
-    const v = videoRef.current
-    if (!v) return
-    if (v.paused) {
-      void v.play()
+  const toggleVideo = () => {
+    if (!videoRef.current) return
+    if (videoPlaying) {
+      videoRef.current.pause()
     } else {
-      v.pause()
+      videoRef.current.play()
     }
+    setVideoPlaying(!videoPlaying)
   }
-  */
 
   return (
     <Section id="gallery">
@@ -102,7 +81,7 @@ export default function Gallery() {
             type="button"
             onClick={prev}
             aria-label="Previous images"
-            className="absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-ink-700/70 bg-ink-950/70 text-cream-100 backdrop-blur-sm transition-colors hover:border-ember-400/60 hover:text-ember-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember-400"
+            className="absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-ink-500/90 bg-ink-900/90 text-cream-100 backdrop-blur-sm transition-colors hover:border-ember-400 hover:bg-ink-800 hover:text-ember-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember-400"
           >
             <Icon name="arrow" className="h-5 w-5 rotate-180" />
           </button>
@@ -124,16 +103,15 @@ export default function Gallery() {
                   style={{ width: `calc((100% - ${(perPage - 1) * 16}px) / ${perPage})` }}
                   className="relative shrink-0 overflow-hidden rounded-2xl border border-ink-700/50"
                 >
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    loading={i < perPage ? "eager" : "lazy"}
-                    className="aspect-[4/3] w-full object-cover"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/70 via-transparent to-transparent opacity-60" />
-                  <figcaption className="absolute bottom-0 left-0 right-0 p-4 text-sm text-cream-100/90">
-                    {img.alt}
-                  </figcaption>
+                  {/* Fixed-height wrapper that handles both landscape & portrait */}
+                  <div className="h-[360px] w-full flex items-center justify-center bg-ink-950 relative">
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      loading={i < perPage ? "eager" : "lazy"}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  </div>
                 </figure>
               ))}
             </motion.div>
@@ -144,7 +122,7 @@ export default function Gallery() {
             type="button"
             onClick={next}
             aria-label="Next images"
-            className="absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-ink-700/70 bg-ink-950/70 text-cream-100 backdrop-blur-sm transition-colors hover:border-ember-400/60 hover:text-ember-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember-400"
+            className="absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-ink-500/90 bg-ink-900/90 text-cream-100 backdrop-blur-sm transition-colors hover:border-ember-400 hover:bg-ink-800 hover:text-ember-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember-400"
           >
             <Icon name="arrow" className="h-5 w-5" />
           </button>
@@ -167,62 +145,45 @@ export default function Gallery() {
         ))}
       </div>
 
-      <Reveal className="mt-12">
-        <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-ink-700/60 bg-ink-800/40">
-          <p className="flex h-full items-center justify-center text-white/70">
-            Fireworks highlight video coming soon
-          </p>
+      {/* Video showcase */}
+      <Reveal className="mt-10">
+        <div className="flex justify-center">
+          <div className="relative rounded-2xl overflow-hidden border border-ink-700/50 bg-ink-950 max-w-md mx-auto">
+            <video
+              ref={videoRef}
+              src={lakeVideo}
+              controls
+              loop
+              muted
+              className="w-full h-auto object-contain"
+              poster="/og-image.jpg"
+              onPlay={() => setVideoPlaying(true)}
+              onPause={() => setVideoPlaying(false)}
+            />
+            {!videoPlaying && (
+              <>
+                {/* Caption overlay - positioned just above play button */}
+                <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-full mb-6 z-10 px-3 py-1 rounded-full bg-ink-950/80 text-cream-100 text-xs font-medium backdrop-blur-sm pointer-events-none">
+                  Lake Neppesing — 4th of July '26
+                </div>
+                {/* Play button overlay */}
+                <button
+                  type="button"
+                  onClick={toggleVideo}
+                  aria-label="Play video"
+                  className="absolute inset-0 flex items-center justify-center bg-ink-950/50 hover:bg-ink-950/30 transition-colors"
+                >
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-ember-400/90 text-ink-950 shadow-xl shadow-ember-500/30 hover:bg-ember-400 hover:scale-105 transition-transform" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-8 w-8 ml-1">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </Reveal>
-
-      {/* Locally-hosted highlight video.
-          A large overlay play button sits centered before the first play so
-          users don't have to hunt for the small native control. Once playing,
-          the overlay fades out; native controls remain available for volume /
-          scrubbing. Clicking the video toggles play/pause. 
-      <Reveal className="mt-12">
-        <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-ink-700/60 bg-ink-800/40">
-          <video
-            ref={videoRef}
-            src={fireworksVideo}
-            title=""
-            controls
-            playsInline
-            preload="metadata"
-            onPlay={() => setPlaying(true)}
-            onPause={() => setPlaying(false)}
-            onEnded={() => setPlaying(false)}
-            className="h-full w-full"
-          />
-          <AnimatePresence>
-            {!playing && (
-              <motion.button
-                type="button"
-                onClick={togglePlay}
-                aria-label="Play highlight reel"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                // Dim the whole frame slightly so the gold button pops, then
-                // the dim clears as the button fades out.
-                className="absolute inset-0 flex items-center justify-center bg-ink-950/30 backdrop-blur-[1px] transition-colors hover:bg-ink-950/20"
-              >
-                <span className="flex h-20 w-20 items-center justify-center rounded-full bg-ember-400 text-ink-950 shadow-xl shadow-ember-500/40 ring-8 ring-ember-400/20 transition-transform duration-300 group-hover:scale-110">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="ml-1 h-9 w-9"
-                    aria-hidden="true"
-                  >
-                    <path d="m7 4 14 8L7 20V4Z" />
-                  </svg>
-                </span>
-              </motion.button>
-            )}
-          </AnimatePresence>
-        </div>
-      </Reveal> */}
 
       {/* Secondary CTA nudging toward social */}
       <Reveal className="mt-10 text-center">
