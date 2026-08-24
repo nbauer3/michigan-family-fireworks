@@ -108,27 +108,15 @@ export default function Contact() {
     })
 
     try {
-      // Always POST to Netlify Forms (records submission)
-      const res = await fetch("/", {
+      // POST directly to the Netlify Function which processes the form,
+      // sends the email notification, and records the submission via form-name.
+      // This matches the working curl command the user provided.
+      const res = await fetch("/.netlify/functions/form-notification", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: body.toString(),
       })
       if (!res.ok) throw new Error(`Submission failed: ${res.status}`)
-
-      // In local dev, also POST directly to the function since webhooks don't fire locally
-      if (import.meta.env.DEV) {
-        try {
-          await fetch("/.netlify/functions/form-notification", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: body.toString(),
-          })
-        } catch {
-          // Don't fail the submission if function call fails
-          console.warn("Local function notification failed (webhook will work in production)")
-        }
-      }
 
       setStatus("success")
       setValues(initialValues)
