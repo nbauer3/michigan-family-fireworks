@@ -41,4 +41,4 @@
     # CSP: allows necessary resources for both dev and prod
     # script-src: 'unsafe-inline' needed for Vite HMR (dev) + React scripts
     # style-src: 'unsafe-inline' needed for Tailwind/Google Fonts
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.netlify.app; media-src 'self'; frame-src 'none'; base-uri 'self'; form-action 'self'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.netlify.app https://particles.js.org; media-src 'self'; frame-src 'none'; base-uri 'self'; form-action 'self'"
