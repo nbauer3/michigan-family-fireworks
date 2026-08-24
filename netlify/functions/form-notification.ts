@@ -2,7 +2,7 @@ import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions"
 import { Resend } from "resend"
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY
-const TO_EMAIL = process.env.NOTIFICATION_EMAIL || "devtestingbauer@gmail.com"
+const TO_EMAIL = process.env.NOTIFICATION_EMAIL || "marksteffler@gmail.com"
 const FROM_EMAIL = "Michigan Fireworks <no-reply@michiganfamilyfireworks.com>"
 
 if (!RESEND_API_KEY) {
